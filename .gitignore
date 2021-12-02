@@ -25,3 +25,6 @@ aoc_2021_day_2-*.tar
 
 # Temporary files for e.g. tests
 /tmp
+
+# Ignore .ds_store
+**/.DS_Store
