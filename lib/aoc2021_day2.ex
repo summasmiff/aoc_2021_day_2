@@ -19,12 +19,25 @@ defmodule Aoc2021Day2 do
     {x + amount, y}
   end
 
+  def move_direction("forward", amount, {x, aim, depth}) do
+    depth_calculation = aim * amount
+    {x + amount, aim, depth + depth_calculation}
+  end
+
   def move_direction("down", amount, {x, y}) do
     {x, y + amount}
   end
 
+  def move_direction("down", amount, {x, aim, depth}) do
+    {x, aim + amount, depth}
+  end
+
   def move_direction("up", amount, {x, y}) do
     {x, y - amount}
+  end
+
+  def move_direction("up", amount, {x, aim, depth}) do
+    {x, aim - amount, depth}
   end
 
   @doc """
@@ -40,6 +53,16 @@ defmodule Aoc2021Day2 do
     end)
   end
 
+  def move_and_aim(list) when is_list(list) do
+    # {x, y, aim}
+    coordinates = {0, 0, 0}
+
+    Enum.reduce(list, coordinates, fn x, acc ->
+      [direction, amount] = String.split(x)
+      move_direction(direction, String.to_integer(amount), acc)
+    end)
+  end
+
   def multiply({x, y}), do: x * y
 
   @doc """
@@ -47,13 +70,30 @@ defmodule Aoc2021Day2 do
 
   ## Examples
 
-      iex> Aoc2021Day2.main("input.txt")
+      iex> Aoc2021Day2.part_one("input.txt")
   """
-  def main(input) do
+  def part_one(input) do
     input
     |> File.read!()
     |> String.split("\n", trim: true)
     |> move()
     |> multiply()
+  end
+
+  @doc """
+  Entrypoint for part 2 puzzle: https://adventofcode.com/2021/day/2#part2
+
+  ## Examples
+
+      iex> Aoc2021Day2.part_two("input.txt")
+  """
+  def part_two(input) do
+    {x, _aim, depth} =
+      input
+      |> File.read!()
+      |> String.split("\n", trim: true)
+      |> move_and_aim()
+
+    x * depth
   end
 end

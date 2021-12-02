@@ -5,4 +5,5 @@ My #AdventofCode solution for Day 2 of 2021!
 
 ## To Run
 
-`iex> Aoc2021Day2.main("input.txt")`
+`iex> Aoc2021Day2.part_one("input.txt")`
+`iex> Aoc2021Day2.part_two("input.txt")`
